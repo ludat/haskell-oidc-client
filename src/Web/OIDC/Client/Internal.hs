@@ -20,7 +20,7 @@ import           Prelude               hiding (exp)
 import           Web.OIDC.Client.Types (OpenIdException (InternalHttpException))
 
 data TokensResponse = TokensResponse
-    { accessToken  :: !Text
+    { accessToken  :: !(Maybe Text)
     , tokenType    :: !Text
     , idToken      :: !Jwt
     , expiresIn    :: !(Maybe Integer)
@@ -30,7 +30,7 @@ data TokensResponse = TokensResponse
 
 instance FromJSON TokensResponse where
     parseJSON (Object o) = TokensResponse
-        <$>  o .:  "access_token"
+        <$>  o .:?  "access_token"
         <*>  o .:  "token_type"
         <*>  o .:  "id_token"
         <*> ((o .:? "expires_in") <|> (textToInt =<< (o .:? "expires_in")))

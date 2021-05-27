@@ -36,7 +36,7 @@ import           Web.OIDC.Client.Settings           (OIDC (..))
 import           Web.OIDC.Client.Types              (OpenIdException (..))
 
 data Tokens a = Tokens
-    { accessToken  :: Text
+    { accessToken  :: Maybe Text
     , tokenType    :: Text
     , idToken      :: IdTokenClaims a
     , idTokenJwt   :: Jwt
