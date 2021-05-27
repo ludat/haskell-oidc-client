@@ -21,7 +21,7 @@ import           Web.OIDC.Client.Types (OpenIdException (InternalHttpException))
 
 data TokensResponse = TokensResponse
     { accessToken  :: !(Maybe Text)
-    , tokenType    :: !Text
+    , tokenType    :: !(Maybe Text)
     , idToken      :: !Jwt
     , expiresIn    :: !(Maybe Integer)
     , refreshToken :: !(Maybe Text)
@@ -31,7 +31,7 @@ data TokensResponse = TokensResponse
 instance FromJSON TokensResponse where
     parseJSON (Object o) = TokensResponse
         <$>  o .:?  "access_token"
-        <*>  o .:  "token_type"
+        <*>  o .:?  "token_type"
         <*>  o .:  "id_token"
         <*> ((o .:? "expires_in") <|> (textToInt =<< (o .:? "expires_in")))
         <*>  o .:? "refresh_token"
